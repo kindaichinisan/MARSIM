@@ -99,7 +99,7 @@ int main(int argc, char** argv)
   // reader.read<pcl::PointXYZ>(file_name2,*cloud_ply);
   // pcl::io::savePCDFile("/home/jackykong/motionplanning/FUEL_ws/src/FUEL/meshmap/hku_demo_pcd.pcd",*cloud_ply);
 
-  ROS_INFO("SUCCESS LOAD PCD FILE");
+  ROS_INFO("map_publisher SUCCESS LOAD PCD FILE map_publisher");
 
   //filter
   pcl::VoxelGrid<pcl::PointXYZ> _voxel_sampler;
@@ -144,7 +144,7 @@ int main(int argc, char** argv)
   
   pcl::getMinMax3D(cloud,global_mapmin,global_mapmax);
 
-  ROS_INFO("Map bound: x=%f,%f, y=%f,%f, z=%f,%f",global_mapmin.x,global_mapmax.x,global_mapmin.y,global_mapmax.y,global_mapmin.z,global_mapmax.z);
+  ROS_INFO("map_publisher Map bound: x=%f,%f, y=%f,%f, z=%f,%f map_publisher",global_mapmin.x,global_mapmax.x,global_mapmin.y,global_mapmax.y,global_mapmin.z,global_mapmax.z);
 
   if(add_boundary == 1)
   {
@@ -341,7 +341,7 @@ int main(int argc, char** argv)
   sensor_msgs::PointCloud2 msg;
   pcl::toROSMsg(cloud, msg);
   msg.header.frame_id = "world";
-  ROS_INFO("Map point size = %d", cloud.points.size());
+  ROS_INFO("map_publisher Map point size = %d", cloud.points.size());
 
     //write files
     // std::string pkg_path("/home/jackykong/motionplanning/FUEL_ws/src/Exploration_sim/uav_simulator/map_generator/resource");
@@ -378,7 +378,7 @@ int main(int argc, char** argv)
       break;
     }
   }
-  cout << "finish publish map." << endl;
+  cout << "map_publisher finish publish map." << endl;
 
   return 0;
 }

@@ -718,7 +718,7 @@ void rcvGlobalPointCloudCallBack(const sensor_msgs::PointCloud2 &pointcloud_map)
   //计算法线
   normalEstimation.compute(*all_normals);
 
-  ROS_WARN("Normal compute finished.., mapsize = %d", origin_mapptcount);
+  ROS_WARN("pointcloud_render_node Normal compute finished.., mapsize = %d", origin_mapptcount);
 
   // trans the map into hash map
   PointType pt_in, center;
@@ -1826,7 +1826,7 @@ void renderSensedPoints(const ros::TimerEvent &event)
     geometry_msgs::PoseStamped totaltime_pub;
     totaltime_pub.pose.position.x = accumulate(comp_time_vec.begin(), comp_time_vec.end(), 0.0) / comp_time_vec.size();
     comp_time_pub.publish(totaltime_pub);
-    ROS_INFO("Temp compute time = %lf, average compute time = %lf", comp_time_temp, totaltime_pub.pose.position.x);
+    ROS_INFO("pointcloud_render_node Temp compute time = %lf, average compute time = %lf", comp_time_temp, totaltime_pub.pose.position.x);
   }
   else
   {
@@ -1915,8 +1915,9 @@ int main(int argc, char **argv)
   {
     string uav_model_path;
     uav_model_path = ros::package::getPath("odom_visualization");//= "/home/mars/catkin_ws2/src/Exploration_sim/octomap_mapping/octomap_server"
-    uav_model_path.append("/meshes/yunque001.pcd");
-    std::cout << "\nFound pkg_path = " << uav_model_path << std::endl;
+    //uav_model_path.append("/meshes/yunque001.pcd");
+    uav_model_path.append("/meshes/Hongyan_addname001.pcd");
+    std::cout << "\npointcloud_render_node Found pkg_path (pointcloud_render_node)= " << uav_model_path << std::endl;
     // myfile.open(pkg_path.c_str(), std::ios_base::out);//, std::ios_base::out
 
     pcd_read_status = pcl::io::loadPCDFile<PointType>(uav_model_path, uav_extra_model);
@@ -1974,13 +1975,13 @@ int main(int argc, char **argv)
   // open file to record time consumuption
   pkg_path = ros::package::getPath("local_sensing_node");  
   pkg_path.append("/data/" + quad_name + "_time_consumption.txt");
-  std::cout << "\nFound pkg_path = " << pkg_path << std::endl;
+  std::cout << "\npointcloud_render_node Found pkg_path (pointcloud_render_node)= " << pkg_path << std::endl;
   myfile.open(pkg_path.c_str(), std::ios_base::out); 
 
   // open file to record collision check time consumption
   pkg_path = ros::package::getPath("local_sensing_node");
   pkg_path.append("/data/" + quad_name + "_collision_check_time_consumption.txt");
-  std::cout << "\nFound pkg_path = " << pkg_path << std::endl;
+  std::cout << "\npointcloud_render_node Found pkg_path (pointcloud_render_node)= " << pkg_path << std::endl;
   collision_checktime_file.open(pkg_path.c_str(), std::ios_base::out);
 
   inv_resolution = 1.0 / resolution;

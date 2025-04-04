@@ -1,1 +1,3 @@
 uav_simulator/local_sensing/data/*
+cascadePID/data/log_0.txt
+map_generator/resource/common_forest_005.pcd

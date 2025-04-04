@@ -634,7 +634,7 @@ void renderSensedPoints(const ros::TimerEvent& event)
       geometry_msgs::PoseStamped totaltime_pub;
       totaltime_pub.pose.position.x = accumulate(comp_time_vec.begin(),comp_time_vec.end(),0.0)/comp_time_vec.size();
       comp_time_pub.publish(totaltime_pub);
-      ROS_INFO("Temp compute time = %lf, average compute time = %lf", comp_time_temp,totaltime_pub.pose.position.x);
+      ROS_INFO("opengl_render_node Temp compute time = %lf, average compute time = %lf", comp_time_temp,totaltime_pub.pose.position.x);
     }else{
       comp_time_count++;
     }
@@ -748,7 +748,7 @@ int main(int argc, char** argv)
     string uav_model_path;
     uav_model_path = ros::package::getPath("odom_visualization");//= "/home/mars/catkin_ws2/src/Exploration_sim/octomap_mapping/octomap_server"
     uav_model_path.append("/meshes/yunque001.pcd");
-    std::cout << "\nFound pkg_path = " << uav_model_path << std::endl;
+    std::cout << "\nopengl_render_node Found pkg_path (opengl_render_node)= " << uav_model_path << std::endl;
     // myfile.open(pkg_path.c_str(), std::ios_base::out);//, std::ios_base::out
 
     pcd_read_status = pcl::io::loadPCDFile<PointType>(uav_model_path, uav_extra_model);
@@ -929,13 +929,13 @@ int main(int argc, char** argv)
 
   pkg_path = ros::package::getPath("local_sensing_node");  
   pkg_path.append("/data/" + quad_name + "_GPU_time_consumption.txt");
-  std::cout << "\nFound pkg_path = " << pkg_path << std::endl;
+  std::cout << "\nopengl_render_node Found pkg_path (opengl_render_node)= " << pkg_path << std::endl;
   myfile.open(pkg_path.c_str(), std::ios_base::out); 
 
   // open file to record collision check time consumption
   pkg_path = ros::package::getPath("local_sensing_node");
   pkg_path.append("/data/" + quad_name + "_GPU_collision_check_time_consumption.txt");
-  std::cout << "\nFound pkg_path = " << pkg_path << std::endl;
+  std::cout << "\nopengl_render_node Found pkg_path (opengl_render_node)= " << pkg_path << std::endl;
   collision_checktime_file.open(pkg_path.c_str(), std::ios_base::out);
 
 
