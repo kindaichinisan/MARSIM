@@ -60,6 +60,13 @@
         <param name="damping_ratio" value="1.0"/>
     </node>
 
+    <node pkg="drone_logger" name="quad$(arg drone_id)_drone_logger_node" type="drone_logger_node" >
+        <remap from="odom" to="/quad_$(arg drone_id)/$(arg odom_topic)"/>
+        <remap from="depth_img" to="/quad$(arg drone_id)_pcl_render_node/depth_img"/>
+        <param name="output_dir" value="/home/hwenjun/HWJ/svn/marsim_ws/output" />
+        <param name="filename" value="drone_log.txt" />
+    </node>
+
     <node pkg="odom_visualization" name="quad$(arg drone_id)_odom_visualization" type="odom_visualization"
           output="screen">
         <remap from="~odom" to="/quad_$(arg drone_id)/$(arg odom_topic)"/>

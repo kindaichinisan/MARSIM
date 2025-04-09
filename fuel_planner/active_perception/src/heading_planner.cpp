@@ -138,10 +138,10 @@ HeadingPlanner::HeadingPlanner(ros::NodeHandle& nh) {
   righttop_ << far_ * sin(right_ang), -far_ * sin(top_ang), far_;
   rightbottom_ << far_ * sin(right_ang), far_ * sin(top_ang), far_;
 
-  std::cout << "lefttop: " << lefttop_.transpose() << std::endl;
-  std::cout << "leftbottom: " << leftbottom_.transpose() << std::endl;
-  std::cout << "righttop: " << righttop_.transpose() << std::endl;
-  std::cout << "rightbottom: " << rightbottom_.transpose() << std::endl;
+  std::cout << "heading_planner lefttop: " << lefttop_.transpose() << std::endl;
+  std::cout << "heading_planner leftbottom: " << leftbottom_.transpose() << std::endl;
+  std::cout << "heading_planner righttop: " << righttop_.transpose() << std::endl;
+  std::cout << "heading_planner rightbottom: " << rightbottom_.transpose() << std::endl;
 
   cast_flags_ = CastFlags(1000000);
   // T_cb_ << 0, -1,  0, 0,
@@ -151,8 +151,8 @@ HeadingPlanner::HeadingPlanner(ros::NodeHandle& nh) {
   T_cb_ << 0, -1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1;
   T_bc_ = T_cb_.inverse();
 
-  std::cout << "T_cb: " << T_cb_ << std::endl;
-  std::cout << "T_bc: " << T_bc_ << std::endl;
+  std::cout << "heading_planner T_cb: " << T_cb_ << std::endl;
+  std::cout << "heading_planner T_bc: " << T_bc_ << std::endl;
 
   casters_.resize(2 * half_vert_num_ + 1);
   for (int i = 0; i < 2 * half_vert_num_ + 1; ++i) {
