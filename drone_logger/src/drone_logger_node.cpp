@@ -69,6 +69,8 @@ int main(int argc, char** argv) {
     ros::NodeHandle nh("~");
     ros::NodeHandle nh_global;
 
+    std::cout<<"drone_logger"<<std::endl;
+
     std::string filename;
     nh.param<std::string>("output_dir", output_dir, "/tmp/ros_output");
     nh.param<std::string>("filename", filename, "drone_log.txt");
