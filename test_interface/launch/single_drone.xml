@@ -11,6 +11,7 @@
     <arg name="downsample_resolution_"/>
     <arg name="use_gpu"/>
     <arg name="use_uav_extra_model_"/>
+    <arg name="wj_sensing_rate"/>
 
        <!-- <node pkg="bubble_planner" type="planning" name="quad_$(arg drone_id)_planner" output="screen">
            <rosparam command="load" file="$(find bubble_planner)/config/advanced_params.yaml"/>
@@ -63,7 +64,7 @@
     <node pkg="drone_logger" name="quad$(arg drone_id)_drone_logger_node" type="drone_logger_node" >
         <remap from="odom" to="/quad_$(arg drone_id)/$(arg odom_topic)"/>
         <remap from="depth_img" to="/quad$(arg drone_id)_pcl_render_node/depth_img"/>
-        <param name="output_dir" value="/home/hwenjun/HWJ/svn/marsim_ws/output" />
+        <param name="output_dir" value="$(env PWD)/output" />
         <param name="filename" value="drone_log.txt" />
     </node>
 
@@ -90,42 +91,43 @@
         <group if="$(eval lidar_type == 'avia')">
             <node pkg="local_sensing_node" type="opengl_render_node" name="quad$(arg drone_id)_pcl_render_node" output="screen" 
                 args="$(arg map_name_)">
-            <remap from="~global_map" to="/map_generator/global_cloud"/>
-            <remap from="~odometry" to="/quad_$(arg drone_id)/$(arg odom_topic)"/>
+                <remap from="~global_map" to="/map_generator/global_cloud"/>
+                <remap from="~odometry" to="/quad_$(arg drone_id)/$(arg odom_topic)"/>
 
-            <param name="drone_id" value="$(arg drone_id)"/>
-            <param name="quadrotor_name" value="quad_$(arg drone_id)"/>
-            <param name="uav_num" value="$(arg uav_num_)"/>
-            <param name="is_360lidar" value="0"/>
-            <param name="sensing_horizon" value="30.0"/>
-            <param name="sensing_rate" value="10.0"/>
-            <param name="estimation_rate" value="10.0"/>
-            <param name="polar_resolution" value="0.2"/>
-            <param name="yaw_fov" value="70.4"/>
-            <param name="vertical_fov" value="77.2"/>
-            <param name="min_raylength" value="1.0"/>
-            <param name="livox_linestep" value="1.4"/>
-            <param name="curvature_limit" value="100.0"/>
-            <param name="hash_cubesize" value="5.0"/>
-            <param name="use_avia_pattern" value="1"/>
+                <param name="drone_id" value="$(arg drone_id)"/>
+                <param name="quadrotor_name" value="quad_$(arg drone_id)"/>
+                <param name="uav_num" value="$(arg uav_num_)"/>
+                <param name="is_360lidar" value="0"/>
+                <param name="sensing_horizon" value="30.0"/>
+                <!-- <param name="sensing_rate" value="10.0"/> -->
+                <param name="sensing_rate" value="$(arg wj_sensing_rate)"/>
+                <param name="estimation_rate" value="10.0"/>
+                <param name="polar_resolution" value="0.2"/>
+                <param name="yaw_fov" value="70.4"/>
+                <param name="vertical_fov" value="77.2"/>
+                <param name="min_raylength" value="1.0"/>
+                <param name="livox_linestep" value="1.4"/>
+                <param name="curvature_limit" value="100.0"/>
+                <param name="hash_cubesize" value="5.0"/>
+                <param name="use_avia_pattern" value="1"/>
 
-            <param name="downsample_res" value="$(arg downsample_resolution_)"/>
+                <param name="downsample_res" value="$(arg downsample_resolution_)"/>
 
-            <param name="dynobj_enable" value="0"/>
-            <param name="dynobject_size" value="0.8"/>
-            <param name="dynobject_num" value="10"/>
-            <param name="dyn_mode" value="0"/><!-- 0 for a=0, 1 for a=g, 2 for random walk -->
-            <param name="dyn_velocity" value="1.0"/>
+                <param name="dynobj_enable" value="0"/>
+                <param name="dynobject_size" value="0.8"/>
+                <param name="dynobject_num" value="10"/>
+                <param name="dyn_mode" value="0"/><!-- 0 for a=0, 1 for a=g, 2 for random walk -->
+                <param name="dyn_velocity" value="1.0"/>
 
-            <param name="use_uav_extra_model" value="$(arg use_uav_extra_model_)"/>
+                <param name="use_uav_extra_model" value="$(arg use_uav_extra_model_)"/>
 
-            <!-- collision parameter -->
-            <param name="collisioncheck_enable" value="0"/>
-            <param name="collision_range" value="0.3"/>
+                <!-- collision parameter -->
+                <param name="collisioncheck_enable" value="0"/>
+                <param name="collision_range" value="0.3"/>
 
-            <param name="output_pcd" value="0"/>
+                <param name="output_pcd" value="0"/>
 
-        </node>
+            </node>
         </group>
 
         <group if="$(eval lidar_type == 'mid360')">
@@ -139,7 +141,8 @@
                 <param name="uav_num" value="$(arg uav_num_)"/>
                 <param name="is_360lidar" value="1"/>
                 <param name="sensing_horizon" value="15.0"/>
-                <param name="sensing_rate" value="10.0"/>
+                <!-- <param name="sensing_rate" value="10.0"/> -->
+                <param name="sensing_rate" value="$(arg wj_sensing_rate)"/>
                 <param name="estimation_rate" value="10.0"/>
                 <param name="polar_resolution" value="0.2"/>
                 <param name="yaw_fov" value="360.0"/>
@@ -180,7 +183,8 @@
                 <param name="uav_num" value="$(arg uav_num_)"/>
                 <param name="is_360lidar" value="1"/>
                 <param name="sensing_horizon" value="15.0"/>
-                <param name="sensing_rate" value="10.0"/>
+                <!-- <param name="sensing_rate" value="10.0"/> -->
+                <param name="sensing_rate" value="$(arg wj_sensing_rate)"/>
                 <param name="estimation_rate" value="10.0"/>
                 <param name="polar_resolution" value="0.2"/>
                 <param name="yaw_fov" value="360.0"/>
@@ -226,7 +230,8 @@
                 <param name="uav_num" value="$(arg uav_num_)"/>
                 <param name="is_360lidar" value="0"/>
                 <param name="sensing_horizon" value="30.0"/>
-                <param name="sensing_rate" value="10.0"/>
+                <!-- <param name="sensing_rate" value="5.0"/> -->
+                <param name="sensing_rate" value="$(arg wj_sensing_rate)"/>
                 <param name="estimation_rate" value="10.0"/>
                 <param name="polar_resolution" value="0.2"/>
                 <param name="yaw_fov" value="70.4"/>
@@ -270,7 +275,8 @@ launch-prefix="gdb --ex run -args"
                 <param name="uav_num" value="$(arg uav_num_)"/>
                 <param name="is_360lidar" value="1"/>
                 <param name="sensing_horizon" value="15.0"/>
-                <param name="sensing_rate" value="10.0"/>
+                <!-- <param name="sensing_rate" value="10.0"/> -->
+                <param name="sensing_rate" value="$(arg wj_sensing_rate)"/>
                 <param name="estimation_rate" value="10.0"/>
                 <param name="polar_resolution" value="0.2"/>
                 <param name="yaw_fov" value="360.0"/>
@@ -311,7 +317,8 @@ launch-prefix="gdb --ex run -args"
                 <param name="uav_num" value="$(arg uav_num_)"/>
                 <param name="is_360lidar" value="1"/>
                 <param name="sensing_horizon" value="15.0"/>
-                <param name="sensing_rate" value="10.0"/>
+                <!-- <param name="sensing_rate" value="10.0"/> -->
+                <param name="sensing_rate" value="$(arg wj_sensing_rate)"/>
                 <param name="estimation_rate" value="10.0"/>
                 <param name="polar_resolution" value="0.2"/>
                 <param name="yaw_fov" value="360.0"/>

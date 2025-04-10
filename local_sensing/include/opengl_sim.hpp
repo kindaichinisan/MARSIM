@@ -276,7 +276,12 @@ void opengl_pointcloud_render::read_pointcloud_fromfile(std::string map_filename
 
     // glfw: initialize and configure
     // ------------------------------
-    glfwInit();
+    if (!glfwInit()) {
+
+        std::cout << "GLFW initialization failed" << std::endl;
+        std::cerr << "GLFW initialization failed!" << std::endl;
+        return;  // Exit program if initialization fails
+    }
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
@@ -289,6 +294,7 @@ void opengl_pointcloud_render::read_pointcloud_fromfile(std::string map_filename
 
     // glfw window creation
     // --------------------
+    std::cout<<"glfwCreateWindow "<<width<<" "<<height<<std::endl;
     window = glfwCreateWindow(width, height, "Opengl_sim", NULL, NULL);
     if (window == NULL)
     {
