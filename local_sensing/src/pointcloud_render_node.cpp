@@ -1870,7 +1870,7 @@ void pubSensorPose(const ros::TimerEvent &e)
 int main(int argc, char **argv)
 {
   ros::init(argc, argv, "pcl_render");
-  ros::NodeHandle nh("~");
+  ros::NodeHandle nh("~"); //local
 
   nh.param("quadrotor_name", quad_name, std::string("quadrotor"));
   nh.getParam("is_360lidar", is_360lidar);
@@ -1970,7 +1970,7 @@ int main(int argc, char **argv)
   pub_cloud = nh.advertise<sensor_msgs::PointCloud2>("cloud", 10);
   pub_pose = nh.advertise<geometry_msgs::PoseStamped>("sensor_pose", 10);
   pub_uavcloud = nh.advertise<sensor_msgs::PointCloud2>("uav_cloud", 10); //扫描机身的点云
-  depth_img_pub_ = nh.advertise<sensor_msgs::Image>("depth_img", 10);
+  depth_img_pub_ = nh.advertise<sensor_msgs::Image>("depth_img", 10); //WJ:hardcoded change from 10 to 30
   comp_time_pub = nh.advertise<geometry_msgs::PoseStamped>("simulator_compute_time", 10);
   double sensing_duration = 1.0 / sensing_rate;
   double estimate_duration = 1.0 / estimation_rate;

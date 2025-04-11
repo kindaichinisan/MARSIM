@@ -570,6 +570,28 @@ void multiOdometryCallbck(const nav_msgs::OdometryConstPtr &msg, int drone_id)
   // pub_uavcloud.publish(otheruav_points_vis_pcd);
 }
 
+//WJ: not working yet. Need to understand pointcloud_render_node to do this
+// void renderDepthImage() {
+//   // Example OpenCV matrix for depth image (replace with actual depth data)
+//   cv::Mat depth_img(polar_height, polar_width, CV_32FC1, cv::Scalar(0));
+
+//   // Fill depth_img with depth data from OpenGL rendering or sensor simulation
+//   for (int i = 0; i < polar_height; ++i) {
+//       for (int j = 0; j < polar_width; ++j) {
+//           depth_img.at<float>(i, j) = /* Your depth calculation */;
+//       }
+//   }
+
+//   // Convert to ROS Image message
+//   cv_bridge::CvImage depth_msg;
+//   depth_msg.header.stamp = ros::Time::now();
+//   depth_msg.header.frame_id = "world";  // Example frame name
+//   depth_msg.encoding = sensor_msgs::image_encodings::TYPE_32FC1;
+//   depth_msg.image = depth_img;
+
+//   // Publish the depth image
+//   depth_img_pub_.publish(depth_msg.toImageMsg());
+// }
 
 int comp_time_count = 0;
 void renderSensedPoints(const ros::TimerEvent& event)
@@ -674,7 +696,8 @@ void renderSensedPoints(const ros::TimerEvent& event)
     sensor_map_pcd.header.stamp = time_stamp_;
     pub_intercloud.publish(sensor_map_pcd);
 
-    
+    // Call function to render and publish depth image
+    //renderDepthImage();
 }
 
 int main(int argc, char** argv)
@@ -910,7 +933,9 @@ int main(int argc, char** argv)
   pub_cloud = nh.advertise<sensor_msgs::PointCloud2>("cloud", 10);
   pub_pose = nh.advertise<geometry_msgs::PoseStamped>("sensor_pose", 10);
   pub_uavcloud = nh.advertise<sensor_msgs::PointCloud2>("uav_cloud", 10);
+  cout<<"opengl_render_node publish depth_img"<<endl;
   depth_img_pub_ = nh.advertise<sensor_msgs::Image>("depth_img", 10);
+  cout<<"opengl_render_node publish depth_img"<<endl;
   comp_time_pub = nh.advertise<geometry_msgs::PoseStamped>("simulator_compute_time", 10);
   pub_collisioncloud = nh.advertise<sensor_msgs::PointCloud2>("collision_cloud", 10);
   double sensing_duration = 1.0 / sensing_rate;
