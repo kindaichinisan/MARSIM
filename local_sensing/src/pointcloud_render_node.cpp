@@ -32,6 +32,9 @@
 #include <deque>
 #include <numeric>
 
+#define D2R (M_PI/180.0)
+#define R2D (180.0/M_PI)
+
 // #define DEBUG
 
 #define likely(x) __builtin_expect(!!(x), 1) // gcc function, for if optimization
@@ -152,6 +155,11 @@ double collision_check_time_sum = 0;
 int collision_check_time_count = 0;
 
 sensor_msgs::PointCloud2 dynobj_points_pcd;
+
+//lidar mounting wrt drone body
+double lidar_mounting_x_angle_deg;
+double lidar_mounting_y_angle_deg;
+double lidar_mounting_z_angle_deg;
 
 pcl::PointCloud<PointType> generate_sphere_cloud(double size)
 {
@@ -872,6 +880,32 @@ void renderSensedPoints(const ros::TimerEvent &event)
   // const Eigen::Matrix3d rot(q.toRotationMatrix());
 
   Eigen::Matrix3d rot_body2lidar = Matrix3d::Identity();
+
+  double angle_x_rad = lidar_mounting_x_angle_deg*D2R;
+  double angle_y_rad = lidar_mounting_y_angle_deg*D2R;
+  double angle_z_rad = lidar_mounting_z_angle_deg*D2R;
+
+  double cosx=cos(angle_x_rad);
+  double sinx=sin(angle_x_rad);
+  double cosy=cos(angle_y_rad);
+  double siny=sin(angle_y_rad);
+  double cosz=cos(angle_z_rad);
+  double sinz=sin(angle_z_rad);
+
+  Eigen::Matrix3d rot_mounting_x, rot_mounting_y, rot_mounting_z;
+  rot_mounting_x << 1,  0,    0,
+                    0,  cosx, -sinx,
+                    0,  sinx, cosx;
+
+  rot_mounting_y << cosy,   0, siny,
+                    0,      1, 0,
+                    -siny,  0, cosy;
+
+  rot_mounting_z << cosz, -sinz,  0,
+                    sinz, cosz,   0,
+                    0,    0,      1;
+
+  rot_body2lidar = rot_mounting_x * rot_mounting_y * rot_mounting_z;
 
   // rotate lidar 
   // Eigen::Vector3d eulerAngle_body2lidar(0,0.5236,0);
@@ -1902,6 +1936,10 @@ int main(int argc, char **argv)
   nh.getParam("collision_range", collision_range);
 
   nh.getParam("output_pcd", output_pcd);
+  
+  nh.getParam("lidar_mounting_x_angle_deg",lidar_mounting_x_angle_deg);
+  nh.getParam("lidar_mounting_y_angle_deg",lidar_mounting_y_angle_deg);
+  nh.getParam("lidar_mounting_z_angle_deg",lidar_mounting_z_angle_deg);
 
   // subscribe other uav pos
   nh.param("uav_num", drone_num, 1);
