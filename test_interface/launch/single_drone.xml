@@ -312,8 +312,8 @@
 
                 <!-- lidar mounting wrt drone body -->
                 <param name="lidar_mounting_x_angle_deg" value="0.0"/>
-                <param name="lidar_mounting_y_angle_deg" value="0.0"/>
-                <param name="lidar_mounting_z_angle_deg" value="45.0"/>
+                <param name="lidar_mounting_y_angle_deg" value="142.0"/>
+                <param name="lidar_mounting_z_angle_deg" value="0.0"/>
             </node>
         </group>        
 
