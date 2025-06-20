@@ -2,6 +2,8 @@ uav_simulator/local_sensing/data/
 cascadePID/data/
 fuel_planner/utils/lkh_tsp_solver/resource/
 map_generator/resource/common_forest_005.pcd
+local_sensing_fuel/*
+fuel_planner/utils/lkh_tsp_solver/resource/
 local_sensing/data/quad_0_collision_check_time_consumption.txt
 local_sensing/data/quad_0_GPU_collision_check_time_consumption.txt
 local_sensing/data/quad_0_GPU_time_consumption.txt
