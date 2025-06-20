@@ -25,6 +25,7 @@
 #include <pcl/search/impl/kdtree.hpp>
 #include <ros/package.h>
 #include <vector>
+#include <string>
 
 typedef pcl::PointXYZ PointT;
 
@@ -79,7 +80,9 @@ int main(int argc, char** argv)
 
   /* load cloud from pcd */
   pcl::PointCloud<pcl::PointXYZ> cloud_temp, cloud;
+  printf("file_name: %s\n", file_name.c_str());
   int status = pcl::io::loadPCDFile<pcl::PointXYZ>(file_name, cloud_temp);
+  printf("file_name2: %s\n", file_name.c_str());
   cloud = cloud_temp;
 //  cloud.clear();
 //  for (int i = 0; i < cloud_temp.size(); i+=5) {
