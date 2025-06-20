@@ -25,6 +25,8 @@ add_definitions(-DROOT_DIR=\"${CMAKE_CURRENT_SOURCE_DIR}/\")
         LINK_DIRECTORIES(${Boost_LIBRARY_DIRS})
       endif()
 
+  find_package(livox_ros_driver2)
+
       set(CMAKE_CXX_STANDARD_REQUIRED ON)
       set(CMAKE_CXX_EXTENSIONS ON)
       set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/modules/")
@@ -36,6 +38,7 @@ add_definitions(-DROOT_DIR=\"${CMAKE_CURRENT_SOURCE_DIR}/\")
   catkin_package(
       DEPENDS Eigen
       CATKIN_DEPENDS roscpp roslib pcl_ros image_transport
+      livox_ros_driver2
   )
 
 # add_compile_options(-pg)

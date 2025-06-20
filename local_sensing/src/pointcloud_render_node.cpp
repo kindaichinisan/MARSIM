@@ -31,6 +31,7 @@
 #include <opencv2/core/eigen.hpp>
 #include <deque>
 #include <numeric>
+#include "livox_ros_driver2/CustomMsg.h"
 
 #define D2R (M_PI/180.0)
 #define R2D (180.0/M_PI)
@@ -71,6 +72,7 @@ struct polar3D
 };
 
 ros::Publisher pub_cloud, pub_pose, pub_intercloud, pub_dyncloud, pub_uavcloud, depth_img_pub_, comp_time_pub;
+ros::Publisher pointcloud_ard_drone_pub;
 
 sensor_msgs::PointCloud2 local_map_pcl;
 sensor_msgs::PointCloud2 local_depth_pcl;
@@ -1204,6 +1206,45 @@ void renderSensedPoints(const ros::TimerEvent &event)
     }
   }
 
+  //fill up the CustomMsg to be published.
+  livox_ros_driver2::CustomMsg msg;
+  // 1. Fill header
+  msg.header.stamp = ros::Time::now();
+  msg.header.frame_id = "lidar_frame";
+
+  // 2. Set timebase (e.g., now in nanoseconds)
+  msg.timebase = ros::Time::now().toNSec();
+
+  // 3. LIDAR ID
+  msg.lidar_id = 1;
+
+  // 4. Reserved bytes (optional)
+  msg.rsvd[0] = 0;
+  msg.rsvd[1] = 0;
+  msg.rsvd[2] = 0;
+
+  // 5. Fill point cloud data
+  msg.point_num = fov_points.size();
+  msg.points.resize(msg.point_num);
+
+  for (size_t i = 0; i < msg.point_num; ++i) {
+    const PointType pt_xyz = fov_points[i];
+
+    livox_ros_driver2::CustomPoint pt;
+    pt.x = pt_xyz.x;
+    pt.y = pt_xyz.y;
+    pt.z = pt_xyz.z;
+    pt.reflectivity = 100; // dummy vle
+    pt.offset_time = i * 100; // dummy time offset
+    pt.tag = 0; // dummy vle
+    pt.line = 0; // dummy vle
+
+    msg.points[i] = pt;
+  }
+
+  // 6. Publish
+  pointcloud_ard_drone_pub.publish(msg);
+
   // add dyanmic objects
   // Step 1: add dynpoints int fov points
   if (dynobj_enable == 1)
@@ -2010,6 +2051,7 @@ int main(int argc, char **argv)
   pub_uavcloud = nh.advertise<sensor_msgs::PointCloud2>("uav_cloud", 10); //扫描机身的点云
   depth_img_pub_ = nh.advertise<sensor_msgs::Image>("depth_img", 10); //WJ:hardcoded change from 10 to 30
   comp_time_pub = nh.advertise<geometry_msgs::PoseStamped>("simulator_compute_time", 10);
+  pointcloud_ard_drone_pub = nh.advertise<livox_ros_driver2::CustomMsg>("pointcloud_ard_drone_topic", 10);
   double sensing_duration = 1.0 / sensing_rate;
   double estimate_duration = 1.0 / estimation_rate;
 
