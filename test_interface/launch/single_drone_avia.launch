@@ -9,7 +9,13 @@
 
     <!-- <arg name="map_name" value="$(find map_generator)/resource/small_forest01cutoff.pcd"/> -->
     <!-- <arg name="map_name" value="$(find map_generator)/resource/LibraryLG_01cutoff_sor.pcd"/> -->
-    <arg name="map_name" value="/home/lexus/HWJ/use_cloud_compare/32-mercedes-benz-gls-580-2020/uploads_files_2787791_Mercedes+Benz+GLS+580_forest.pcd"/>
+    <!-- <arg name="map_name" value="/home/lexus/HWJ/use_cloud_compare/32-mercedes-benz-gls-580-2020/uploads_files_2787791_Mercedes+Benz+GLS+580_forest.pcd"/> -->
+    <!-- <arg name="map_name" value="/home/lexus/HWJ/3D_model/palm_tree/palm_tree_plantation_less_less_plane.pcd"/> -->
+    <!-- <arg name="map_name" value="/home/lexus/HWJ/3D_model/palm_tree/palm_tree_plantation_less_less_plane_with_car2.pcd"/> -->
+    <!-- <arg name="map_name" value="/home/lexus/HWJ/pcd_from_Kelvin/20250610_MH_outdoor.pcd"/> -->
+    <!-- <arg name="map_name" value="/home/lexus/HWJ/pcd_from_Kelvin/corrected_map_20250610.pcd"/> -->
+    <!-- <arg name="map_name" value="/home/lexus/HWJ/3D_model_from_LeongFei/pcd_conversion/plantation_with_car_LF_palm.pcd"/> -->
+    <arg name="map_name" value="/home/lexus/HWJ/pcd_from_Kelvin/livox/20250612_Bishan_Run2.pcd"/>
 
     <arg name="downsample_resolution" value="0.1"/>
 
