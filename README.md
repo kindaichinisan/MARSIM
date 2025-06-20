@@ -67,3 +67,38 @@ Thanks for [FUEL](https://github.com/HKUST-Aerial-Robotics/FUEL.git)
 
 ## Future
 More realistic maps and functions are going to be released soon.
+
+## Map (pcd)
+/home/lexus/HWJ/use_cloud_compare/32-mercedes-benz-gls-580-2020/uploads_files_2787791_Mercedes+Benz+GLS+580_forest.pcd: forest with car
+/home/lexus/HWJ/3D_model/palm_tree/palm_tree_plantation_less_less_plane.pcd: plantation
+/home/lexus/HWJ/3D_model/palm_tree/palm_tree_plantation_less_less_plane_with_car2.pcd: plantation with car
+/home/lexus/HWJ/pcd_from_Kelvin/20250610_MH_outdoor.pcd: from Kelvin
+/home/lexus/HWJ/pcd_from_Kelvin/corrected_map_20250610.pcd: from Kelvin (does not work)
+/home/lexus/HWJ/3D_model_from_LeongFei/pcd_conversion/plantation_with_car_LF_palm.pcd: replace /home/lexus/HWJ/3D_model/palm_tree/palm_tree_plantation_less_less_plane_with_car2.pcd with LF palm tree
+/home/lexus/HWJ/pcd_from_Kelvin/livox/20250612_Bishan_Run1.pcd: from Kelvin in Bishan.
+/home/lexus/HWJ/pcd_from_Kelvin/livox/20250612_Bishan_Run2.pcd: from Kelvin in Bishan.
+
+## add livox ros driver 2 to this project
+Add find_package(livox_ros_driver2) and catkin_package(livox_ros_driver2) to CMakeLists.txt
+Add <build_depend>livox_ros_driver2</build_depend> and <run_depend>livox_ros_driver2</run_depend> to package.xml
+
+after building livox ros driver 2, copy /home/lexus/INP2025/ws_livox/devel/include/livox_ros_driver2 to /home/lexus/INP2025/marsim_ws/devel/include/livox_ros_driver2.
+
+May not be standard practice but works.
+
+Add #include "livox_ros_driver2/CustomMsg.h" to file that uses it.
+
+After adding the code in pointcloud_render_node.cpp, use rostopic list to check if topic exists: /quad0_pcl_render_node/pointcloud_ard_drone_topic
+
+rostopic echo /quad0_pcl_render_node/pointcloud_ard_drone_topic.
+
+Before this, need to source /home/lexus/INP2025/ws_livox/devel/setup.bash else it will complain ERROR: Cannot load message class for [livox_ros_driver2/CustomMsg]. Are your messages built?
+
+## Useful ros command
+rostopic echo /quad0_pcl_render_node/pointcloud_ard_drone_topic
+rostopic hz /quad0_pcl_render_node/pointcloud_ard_drone_topic quad_0/imu
+source /home/lexus/INP2025/ws_livox/devel/setup.bash
+rostopic list
+roslaunch test_interface single_drone_avia.launch: Launch multiple nodes or a node with parameters/configuration.
+rosrun turtlesim turtlesim_node: Run a single node from a package.
+rosrun rqt_graph rqt_graph
